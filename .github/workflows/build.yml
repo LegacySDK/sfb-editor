@@ -31,9 +31,6 @@ jobs:
       - name: nuget
         uses: NuGet/setup-nuget@v2
 
-      - name: restoer
-        run: nuget restore *.sln
-
       - name: Build
         run: |
           msbuild "%PROJECT%" ^
