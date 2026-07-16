@@ -34,9 +34,9 @@ jobs:
       - name: Build
         shell: pwsh
         run: |
-	  msbuild $env:PROJECT `
-	    /p:Configuration=${{ github.event.inputs.build_type }} `
-	    /p:Platform="AnyCPU"
+	        msbuild $env:PROJECT `
+	          /p:Configuration=${{ github.event.inputs.build_type }} `
+	          /p:Platform="AnyCPU"
 
       - name: Upload
         uses: actions/upload-artifact@v4
