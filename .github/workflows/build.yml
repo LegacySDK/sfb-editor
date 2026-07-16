@@ -31,11 +31,12 @@ jobs:
       - name: nuget
         uses: NuGet/setup-nuget@v2
 
-      - name: Build
-        run: |
-          msbuild "%PROJECT%" ^
-            /p:Configuration=${{ github.event.inputs.build_type }} ^
-            /p:Platform="AnyCPU"
+    - name: Build
+      shell: pwsh
+       run: |
+	 msbuild $env:PROJECT `
+	  /p:Configuration=${{ github.event.inputs.build_type }} `
+	  /p:Platform="AnyCPU"
 
       - name: Upload
         uses: actions/upload-artifact@v4
