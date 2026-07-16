@@ -1,0 +1,71 @@
+name: Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: config
+        required: true
+        default: Debug
+        type: choice
+        options:
+          - Debug
+          - Release
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    env:
+      PROJECT: sfb.csproj
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: microslop build
+        uses: microsoft/setup-msbuild@v2
+
+      - name: nuget
+        uses: NuGet/setup-nuget@v2
+
+      - name: restoer
+        run: nuget restore *.sln
+
+      - name: Build
+        run: |
+          msbuild "%PROJECT%" ^
+            /p:Configuration=${{ github.event.inputs.build_type }} ^
+            /p:Platform="AnyCPU"
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: sfb-${{ github.event.inputs.build_type }}
+          path: bin/${{ github.event.inputs.build_type }}/
+
+      - name: Read The Fucking Version
+        if: github.event.inputs.build_type == 'Release'
+        shell: pwsh
+        run: |
+          $version = (Get-Content VERSION -Raw).Trim()
+          echo "VERSION=$version" >> $env:GITHUB_ENV
+
+      - name: zip
+        if: github.event.inputs.build_type == 'Release'
+        shell: pwsh
+        run: |
+          Compress-Archive `
+            -Path "bin/Release/*" `
+            -DestinationPath "sfb-$env:VERSION.zip"
+
+      - name: gh rel
+        if: github.event.inputs.build_type == 'Release'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env.VERSION }}
+          name: sfb v${{ env.VERSION }}
+          body_path: CHANGELOG.md
+          files: sfb-${{ env.VERSION }}.zip
