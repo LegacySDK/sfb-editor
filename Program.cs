@@ -97,7 +97,7 @@ namespace sfb {
             Console.WriteLine("sfb.exe (PS3_DISC.SFB)");
             Console.WriteLine("Arguments:\n");
             Console.WriteLine("--info / -i | Shows information about the SFB file");
-            Console.WriteLine("--create <output> <TITLE_ID> <TITLE> | Creates a SFB File");
+            Console.WriteLine("--create / -c <output> <TITLE_ID> <TITLE> | Creates a SFB File");
         }
 
         static void getInformationAboutThisMotherfuckingFile(string file) {
