@@ -13,3 +13,5 @@ Arguments:
 --info / -i | Shows information about the SFB file
 --create <output> <TITLE_ID> <TITLE> | Creates a SFB File
 ```
+
+# Online version: https://miskaa.pl/sfb/
