@@ -14,4 +14,4 @@ Arguments:
 --create <output> <TITLE_ID> <TITLE> | Creates a SFB File
 ```
 
-# Online version: https://miskaa.pl/sfb/
+# Web version: https://miskaa.pl/sfb/
